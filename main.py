@@ -1,14 +1,10 @@
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
-emotion_model = load_model('fer2013_mini_XCEPTION.102-0.66.hdf5', compile=False)
 
-EMOTIONS = ["Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise"]
-
-img = cv2.imread('img5.jpg')
+img = cv2.imread('img1.jpeg')
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -26,10 +22,6 @@ for (x, y, w, h) in faces:
     roi_gray = np.expand_dims(roi_gray, axis=-1)
     roi_gray = np.expand_dims(roi_gray, axis=0)
     roi_gray = roi_gray / 255.0
-
-    preds = emotion_model.predict(roi_gray)[0]
-    emotion_label = EMOTIONS[np.argmax(preds)]
-    emotion_confidence = preds[np.argmax(preds)]
 
 cv2.imshow('Face Detection', img)
 cv2.waitKey(0)
